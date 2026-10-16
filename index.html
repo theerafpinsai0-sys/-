@@ -217,6 +217,43 @@ header::after{content:"";position:absolute;left:0;bottom:-1px;width:100%;height:
 @media(prefers-reduced-motion:reduce){.card,.card::before,.card::after,.sp,.img::after,.btn::after{animation:none!important}}
 .mt button:focus-visible,#acc button:focus-visible{outline:none}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+/* ===== หน้าโปรไฟล์ ===== */
+#acc{width:min(520px,94vw);max-height:92vh;overflow:auto;padding:14px;background:#0b0610}
+#acc::-webkit-scrollbar{width:0}
+.pcard{background:#100a16;border:1px solid rgba(255,47,208,.18);border-radius:24px;padding:20px;margin-bottom:14px;box-shadow:0 0 14px rgba(255,47,208,.12)}
+.phead{display:flex;gap:16px;align-items:center}
+.pav{flex:none;width:84px;height:84px;border-radius:50%;display:grid;place-items:center;font:800 2.4rem Poppins,sans-serif;color:var(--brand);background:#22082a;border:3px solid #7a1a8c;box-shadow:var(--glow)}
+.pname{font-size:1.9rem;font-weight:800;line-height:1.15;color:#fff;word-break:break-all}
+.pmail{color:var(--muted);font-size:.95rem;margin:2px 0 8px}
+.pbadge{display:inline-block;border:1.5px solid #7a1a8c;background:#22082a;color:var(--brand);border-radius:999px;padding:3px 14px;font-weight:700;font-size:.9rem}
+.pstats{text-align:center;border-top:1px solid var(--line);margin-top:18px;padding-top:14px}
+.pstats b{display:block;font-size:2rem;color:var(--brand);text-shadow:0 0 12px rgba(255,47,208,.6);line-height:1.2}
+.pstats span{display:block;color:var(--muted);font-size:.92rem;margin-bottom:10px}
+.ptitle{display:flex;gap:12px;align-items:center;font-size:1.2rem;font-weight:700;padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.pico{width:40px;height:40px;border-radius:10px;background:#22082a;border:1.5px solid #7a1a8c;display:grid;place-items:center;font-size:1.1rem}
+.prow{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+.prow:last-child{border-bottom:0}
+.prow>span{color:var(--muted)}
+.prow>b{font-weight:500;text-align:right}
+.pchip{background:#0b0610;border:1.5px solid var(--line);border-radius:12px;padding:6px 14px;font-weight:500}
+.pw{position:relative}
+.pw input{padding-right:46px;border-radius:14px;padding-top:14px;padding-bottom:14px;background:#08040c}
+.pw button{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:0;color:var(--muted);font-size:1.2rem;padding:8px}
+#pwSave,#accClose{width:100%;margin-top:14px;padding:14px;border-radius:14px}
+
+/* ===== ไฟรุ้งวิ่งรอบการ์ด ===== */
+@property --ang{syntax:"<angle>";initial-value:0deg;inherits:false}
+@keyframes rgbspin{to{--ang:360deg}}
+.pcard,.pav{position:relative}
+.pcard::before,.pcard::after,.pav::before,.pav::after{content:"";position:absolute;inset:-2px;border-radius:inherit;padding:2px;
+  background:conic-gradient(from var(--ang),#ff0040,#ff8a00,#ffe600,#2bff6a,#00e5ff,#3d5afe,#d500f9,#ff0040);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);mask-composite:exclude;
+  animation:rgbspin 3.5s linear infinite;pointer-events:none}
+.pcard::after,.pav::after{filter:blur(8px);opacity:.75;padding:4px;inset:-4px}
+.pav{border-color:transparent}
+@media (prefers-reduced-motion:reduce){.pcard::before,.pcard::after,.pav::before,.pav::after{animation:none}}
 </style>
 </head>
 <body>
@@ -295,12 +332,34 @@ header::after{content:"";position:absolute;left:0;bottom:-1px;width:100%;height:
 </dialog>
 
 <dialog id="acc">
-  <h3>บัญชีของฉัน</h3><p id="accU"></p>
-  <div class="stat" style="margin:10px 0"><span>ID สมาชิก</span><b id="accId" style="font-size:1.8rem;letter-spacing:.06em"></b></div>
-  <div class="stat"><span>เครดิตคงเหลือ</span><b id="accBal"></b></div>
-  <p style="margin-top:12px">แจ้ง ID นี้กับแอดมินเพื่อเติมเครดิต</p>
-  <div class="row"><button class="btn ghost" id="accCopy">คัดลอก ID</button><button class="btn ghost" id="accOut">ออกจากระบบ</button></div>
-  <div class="row"><button class="btn" id="accClose">ปิด</button></div>
+  <div class="pcard">
+    <div class="phead">
+      <div class="pav" id="pAv">Y</div>
+      <div style="min-width:0"><div class="pname" id="pName"></div><div class="pmail" id="pSub"></div><span class="pbadge">สมาชิก</span></div>
+    </div>
+    <div class="pstats">
+      <b id="accBal">฿0.00</b><span>เครดิตคงเหลือ</span>
+      <b id="pOrders">0</b><span>ยอดการสั่งซื้อ</span>
+      <b id="pTotal">฿0.00</b><span>ยอดซื้อรวม</span>
+    </div>
+  </div>
+  <div class="pcard">
+    <div class="ptitle"><span class="pico">👤</span>ข้อมูลบัญชี</div>
+    <div class="prow"><span>ชื่อผู้ใช้</span><b class="pchip" id="accU"></b></div>
+    <div class="prow"><span>ID สมาชิก</span><b class="pchip" id="accId" style="letter-spacing:.06em"></b></div>
+    <div class="prow"><span>สมัครเมื่อ</span><b id="pCreated">-</b></div>
+    <div class="prow"><span>เข้าสู่ระบบล่าสุด</span><b id="pLast">-</b></div>
+    <div class="row" style="margin-top:6px"><button class="btn ghost" id="accCopy">คัดลอก ID</button><button class="btn ghost" id="accOut">ออกจากระบบ</button></div>
+    <p style="margin:12px 0 0">แจ้ง ID นี้กับแอดมินเพื่อเติมเครดิต</p>
+  </div>
+  <div class="pcard">
+    <div class="ptitle"><span class="pico">🔒</span>เปลี่ยนรหัสผ่าน</div>
+    <label for="pw0">รหัสผ่านปัจจุบัน</label><div class="pw"><input id="pw0" type="password" placeholder="รหัสผ่านปัจจุบัน" autocomplete="current-password"><button type="button" data-eye="pw0" aria-label="แสดงรหัสผ่าน">👁</button></div>
+    <label for="pw1">รหัสผ่านใหม่</label><div class="pw"><input id="pw1" type="password" placeholder="รหัสผ่านใหม่ (อย่างน้อย 6 ตัว)" autocomplete="new-password"><button type="button" data-eye="pw1" aria-label="แสดงรหัสผ่าน">👁</button></div>
+    <label for="pw2">ยืนยันรหัสผ่านใหม่</label><div class="pw"><input id="pw2" type="password" placeholder="ยืนยันรหัสผ่านใหม่" autocomplete="new-password"><button type="button" data-eye="pw2" aria-label="แสดงรหัสผ่าน">👁</button></div>
+    <button class="btn" id="pwSave">✓ บันทึกรหัสผ่าน</button>
+  </div>
+  <button class="btn ghost" id="accClose">ปิด</button>
 </dialog>
 
 <dialog id="adm">
@@ -377,7 +436,7 @@ d.querySelectorAll("[data-t]").forEach(function(b){b.onclick=function(){
   $("#aGo").textContent=mode==="login"?"เข้าสู่ระบบ":"สมัครสมาชิก";
 }});
 /* ===== สมาชิก: ใช้ Supabase (ข้อมูลเก็บบนเซิร์ฟเวอร์ ไม่ใช่ในเครื่อง) ===== */
-var SB="https://ogppjkdgggkzcvopzhsx.supabase.co",SBK="sb_publishable_YbNWWnaH_8S7-VoUmWfvVw_NjpfGV9r",SS="yod_sb_session",mem={users:[]},me=null,busy=false;
+var SB="https://ogppjkdgggkzcvopzhsx.supabase.co",SBK="sb_publishable_YbNWWnaH_8S7-VoUmWfvVw_NjpfGV9r",SS="yod_sb_session",mem={users:[]},me=null,busy=false,tok=null;
 function api(path,method,body,token){
   return fetch(SB+path,{method:method,headers:{"apikey":SBK,"Content-Type":"application/json","Authorization":"Bearer "+(token||SBK)},body:body?JSON.stringify(body):undefined})
    .then(function(r){return r.json().catch(function(){return {}}).then(function(j){return {ok:r.ok,status:r.status,j:j||{}}})});
@@ -385,14 +444,15 @@ function api(path,method,body,token){
 function mailOf(n){return sha(n.toLowerCase()).then(function(h){return h.slice(0,40)+"@yodshop.app"})}
 function setMe(u){me=u;$("#openAuth").textContent=u?"ID "+u.id:"เข้าสู่ระบบ"}
 function saveSess(t,u){try{localStorage.setItem(SS,JSON.stringify({rt:t.refresh_token,id:u.id,name:u.name}))}catch(e){}}
-function signOut(){try{localStorage.removeItem(SS)}catch(e){}setMe(null)}
+function signOut(){try{localStorage.removeItem(SS)}catch(e){}tok=null;setMe(null)}
 function nameOf(id){return me&&me.id===id?me.name+" · ":""}
 /* ดึงโปรไฟล์ (ID 8 หลัก + ชื่อ) หลังล็อกอิน */
 function loadProfile(t){
   return api("/rest/v1/profiles?select=uid,username&limit=1","GET",null,t.access_token).then(function(r){
     var p=Array.isArray(r.j)?r.j[0]:null;
     if(!r.ok||!p)throw new Error("noprofile");
-    var u={id:p.uid,name:p.username};saveSess(t,u);return u;
+    var md=(t.user&&t.user.user_metadata)||{};
+    var u={id:p.uid,name:p.username||md.username||"-"};saveSess(t,u);tok=t.access_token;return u;
   });
 }
 function authErr(r){
@@ -407,11 +467,46 @@ function authErr(r){
 /* กู้เซสชันที่ค้างไว้ */
 try{var sv=JSON.parse(localStorage.getItem(SS));if(sv&&sv.id){setMe({id:sv.id,name:sv.name});
   api("/auth/v1/token?grant_type=refresh_token","POST",{refresh_token:sv.rt}).then(function(r){
-    if(r.ok&&r.j.refresh_token){saveSess(r.j,{id:sv.id,name:sv.name})}
+    if(r.ok&&r.j.refresh_token){tok=r.j.access_token;saveSess(r.j,{id:sv.id,name:sv.name})}
     else if(r.status>=400&&r.status<500){signOut()}
   }).catch(function(){});
 }}catch(e){}
-function openAcc(){if(!me)return;$("#accU").textContent="ชื่อผู้ใช้: "+me.name;$("#accId").textContent=me.id;$("#accBal").textContent="฿"+(cr.m[me.id]||0);$("#acc").showModal()}
+function fmtDT(x){if(!x)return"-";var d=new Date(x);if(isNaN(d))return"-";return d.toLocaleString("th-TH-u-ca-buddhist",{day:"numeric",month:"long",year:"numeric",hour:"2-digit",minute:"2-digit",hour12:false})+" น."}
+function freshTok(){
+  if(tok)return Promise.resolve(tok);
+  var sv;try{sv=JSON.parse(localStorage.getItem(SS))}catch(e){}
+  if(!sv||!sv.rt)return Promise.resolve(null);
+  return api("/auth/v1/token?grant_type=refresh_token","POST",{refresh_token:sv.rt}).then(function(r){
+    if(r.ok&&r.j.access_token){tok=r.j.access_token;saveSess(r.j,{id:sv.id,name:sv.name});return tok}return null});
+}
+function openAcc(){if(!me)return;
+  var nm=me.name&&me.name!=="-"?me.name:"สมาชิก";
+  $("#pName").textContent=nm;$("#pAv").textContent=nm.charAt(0).toUpperCase();$("#pSub").textContent="ID "+me.id;
+  $("#accU").textContent=nm;$("#accId").textContent=me.id;
+  var b=(cr.m[me.id]||0);$("#accBal").textContent="฿"+Number(b).toFixed(2);
+  $("#pOrders").textContent="0";$("#pTotal").textContent="฿0.00";
+  $("#pCreated").textContent="-";$("#pLast").textContent="-";
+  ["pw0","pw1","pw2"].forEach(function(i){$("#"+i).value=""});
+  $("#acc").showModal();
+  freshTok().then(function(t){if(!t)return;return api("/auth/v1/user","GET",null,t).then(function(r){
+    if(r.ok){$("#pCreated").textContent=fmtDT(r.j.created_at);$("#pLast").textContent=fmtDT(r.j.last_sign_in_at)}})}).catch(function(){});
+}
+document.addEventListener("click",function(e){var b=e.target.closest("[data-eye]");if(!b)return;var i=$("#"+b.dataset.eye);i.type=i.type==="password"?"text":"password"});
+$("#pwSave").onclick=function(){
+  var a=$("#pw0").value,n=$("#pw1").value,c=$("#pw2").value,btn=$("#pwSave");
+  if(!a||!n||!c){toast("กรุณากรอกข้อมูลให้ครบ");return}
+  if(n.length<6){toast("รหัสผ่านใหม่ต้องมีอย่างน้อย 6 ตัว");return}
+  if(n!==c){toast("รหัสผ่านใหม่ไม่ตรงกัน");return}
+  if(!me||busy)return;busy=true;btn.disabled=true;
+  function done(){busy=false;btn.disabled=false}
+  mailOf(me.name).then(function(em){return api("/auth/v1/token?grant_type=password","POST",{email:em,password:a})}).then(function(r){
+    if(!r.ok||!r.j.access_token){done();toast("รหัสผ่านปัจจุบันไม่ถูกต้อง");return}
+    tok=r.j.access_token;saveSess(r.j,me);
+    return api("/auth/v1/user","PUT",{password:n},tok).then(function(r2){
+      done();if(!r2.ok){toast(authErr(r2));return}
+      ["pw0","pw1","pw2"].forEach(function(i){$("#"+i).value=""});toast("เปลี่ยนรหัสผ่านเรียบร้อยแล้ว")});
+  }).catch(function(){done();toast("เชื่อมต่อเซิร์ฟเวอร์ไม่ได้")});
+};
 $("#openAuth").onclick=function(){if(me)openAcc();else d.showModal()};
 $("#accClose").onclick=function(){$("#acc").close()};
 $("#accOut").onclick=function(){signOut();$("#acc").close();toast("ออกจากระบบแล้ว")};
